@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student AI Doubt Solver</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <div class="header__brand" aria-label="Site logo">Student AI Doubt Solver</div>
+      <nav class="header__nav" aria-label="Main navigation">
+        <a href="#" class="link">Saved</a>
+        <a href="#" class="link">History</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="main" aria-live="polite">
+    <section class="hero container">
+      <div class="hero__text">
+        <h1 class="hero__title">Ask Any Question</h1>
+        <p class="hero__subtitle">Get instant answers, diagrams, citations, and flashcards.</p>
+      </div>
+
+      <div class="card ask-card" data-animate>
+        <form id="askForm" class="ask-form" aria-label="Question form">
+          <label for="questionInput" class="sr-only">Exam question</label>
+          <textarea id="questionInput" class="textarea" placeholder="Paste your exam question..." rows="6" aria-required="true"></textarea>
+          <div class="ask-form__row">
+            <label class="checkbox">
+              <input id="includeDiagram" type="checkbox" />
+              <span>Include diagram</span>
+            </label>
+            <button id="submitBtn" type="submit" class="btn btn--primary">Get Study Card</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="loadingCard" class="container" aria-hidden="true" hidden>
+      <div class="card skeleton" role="status" aria-label="Generating answer">
+        <div class="skeleton__bar skeleton__bar--lg shimmer"></div>
+        <div class="skeleton__bar shimmer"></div>
+        <div class="skeleton__bar shimmer"></div>
+        <div class="skeleton__grid">
+          <div class="skeleton__tile shimmer"></div>
+          <div class="skeleton__tile shimmer"></div>
+          <div class="skeleton__tile shimmer"></div>
+        </div>
+        <p class="skeleton__text">Generating answer…</p>
+      </div>
+    </section>
+
+    <section id="result" class="result container" hidden aria-hidden="true">
+      <div class="result__grid">
+        <article class="card result__answer" data-animate>
+          <h2 class="card__title">Quick Answer</h2>
+          <p id="quickAnswer" class="prose"></p>
+        </article>
+
+        <article class="card result__steps" data-animate>
+          <h2 class="card__title">Step-by-step</h2>
+          <ol id="stepsList" class="list"></ol>
+        </article>
+
+        <article class="card result__citations" data-animate>
+          <h2 class="card__title">Citations</h2>
+          <ul id="citationsList" class="list list--bulleted"></ul>
+        </article>
+
+        <article class="card result__images" data-animate>
+          <h2 class="card__title">Images</h2>
+          <div class="carousel" aria-label="Image gallery">
+            <button class="carousel__btn" id="prevImgBtn" aria-label="Previous image">&#10094;</button>
+            <div class="carousel__viewport">
+              <div id="imageTrack" class="carousel__track" role="list"></div>
+            </div>
+            <button class="carousel__btn" id="nextImgBtn" aria-label="Next image">&#10095;</button>
+          </div>
+        </article>
+
+        <article class="card result__flashcards" data-animate>
+          <h2 class="card__title">Flashcards</h2>
+          <div id="flashcards" class="flashcards" aria-live="polite"></div>
+        </article>
+
+        <article class="card result__followups" data-animate>
+          <h2 class="card__title">Follow-up Questions</h2>
+          <div id="followUps" class="chips"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="footer__text">Built for learners.</p>
+    </div>
+  </footer>
+
+  <script src="./script.js" defer></script>
+</body>
+</html>
