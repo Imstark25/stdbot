@@ -68,15 +68,19 @@ const exportBtn = dom('#exportBtn');
 const revisionBtn = dom('#revisionBtn');
 const searchInput = dom('#searchInput');
 const subjectTop = dom('#subjectTop');
+const subjectCarousel = dom('.subject-carousel');
+const subjectBtns = domAll('.subject-btn');
 
 // Sidebar and modal
 const sidebar = dom('.sidebar');
-const collapseBtn = dom('#collapseBtn');
 const mobileMenuBtn = dom('#mobileMenuBtn');
 const imageModal = dom('#imageModal');
 const modalImage = dom('#modalImage');
 const modalDownload = dom('#modalDownload');
 const modalCloseBtn = dom('#modalCloseBtn');
+
+// Loader step animation
+let loaderInterval = null;
 
 // Keyboard: Ctrl+Enter submits
 document.addEventListener('keydown', (e)=>{
@@ -94,16 +98,33 @@ document.addEventListener('DOMContentLoaded', ()=>{
   exportBtn.addEventListener('click', ()=> exportCardAsPDF('studyCard'));
   revisionBtn.addEventListener('click', onAddToRevision);
 
-  // Sidebar controls
-  collapseBtn.addEventListener('click', ()=>{
-    const collapsed = sidebar.classList.toggle('is-collapsed');
-    collapseBtn.setAttribute('aria-expanded', (!collapsed).toString());
+  // Subject carousel handling
+  subjectBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      subjectBtns.forEach(b => {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-selected', 'true');
+      subjectSelect.value = btn.dataset.subject;
+      // Scroll into view
+      btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    });
   });
+
+  // Sidebar mobile toggle
   mobileMenuBtn.addEventListener('click', ()=> sidebar.classList.toggle('is-open'));
 
   // Search debounce filters history list
   searchInput.addEventListener('input', debounce(()=> renderHistorySidebar(searchInput.value.trim()), 300));
-  subjectTop.addEventListener('change', ()=> subjectSelect.value = subjectTop.value);
+  if (subjectTop) subjectTop.addEventListener('change', ()=> {
+    subjectSelect.value = subjectTop.value;
+    // Sync carousel
+    subjectBtns.forEach(b => {
+      b.classList.toggle('is-active', b.dataset.subject === subjectTop.value);
+    });
+  });
 
   // Modal handlers
   dom('[data-close-modal]', imageModal).addEventListener('click', closeModal);
@@ -113,6 +134,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
   // Shortcuts
   dom('#genDiagramBtn').addEventListener('click', ()=> showToast('Diagram generation will be added soon.'));
   dom('#exportAllBtn').addEventListener('click', ()=> showToast('Exporting all is not implemented in demo.'));
+
+  // Nav items
+  domAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      domAll('.nav-item').forEach(i => i.classList.remove('is-active'));
+      item.classList.add('is-active');
+    });
+  });
 
   // Initial UI
   updateStats();
@@ -294,8 +323,47 @@ function exportCardAsPDF(cardId){
 
 // Loading / Errors
 function setLoading(isLoading){
-  if (isLoading){ submitBtn.disabled = true; loader.hidden = false; }
-  else { submitBtn.disabled = false; loader.hidden = true; }
+  if (isLoading){ 
+    submitBtn.disabled = true; 
+    loader.hidden = false;
+    // Animate loader steps
+    animateLoaderSteps();
+  }
+  else { 
+    submitBtn.disabled = false; 
+    loader.hidden = true;
+    stopLoaderAnimation();
+  }
+}
+
+function animateLoaderSteps() {
+  const steps = domAll('.loader-step', loader);
+  let currentStep = 0;
+  
+  // Reset all steps
+  steps.forEach((s, i) => {
+    s.classList.remove('is-active', 'is-done');
+    s.querySelector('.loader-step-icon').textContent = '◯';
+  });
+  steps[0].classList.add('is-active');
+  steps[0].querySelector('.loader-step-icon').textContent = '✓';
+  
+  loaderInterval = setInterval(() => {
+    if (currentStep < steps.length - 1) {
+      steps[currentStep].classList.remove('is-active');
+      steps[currentStep].classList.add('is-done');
+      currentStep++;
+      steps[currentStep].classList.add('is-active');
+      steps[currentStep].querySelector('.loader-step-icon').textContent = '✓';
+    }
+  }, 600);
+}
+
+function stopLoaderAnimation() {
+  if (loaderInterval) {
+    clearInterval(loaderInterval);
+    loaderInterval = null;
+  }
 }
 function showError(msg){ errorBox.textContent = msg; errorBox.hidden = false; }
 function clearError(){ errorBox.hidden = true; errorBox.textContent = ''; }
