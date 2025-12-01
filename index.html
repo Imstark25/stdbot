@@ -4,297 +4,228 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student AI Doubt Solver</title>
-  <meta name="description" content="Ask questions and get AI-generated study cards with steps, citations, images, and flashcards.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css" />
-  <!-- Optional PDF export dependency; app gracefully degrades if unavailable -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-YcsIPN7d1ZP/8mS+S4k2m5d9q4kTj2HnI/Mw3WJm7z0s/9F2oHn7o7kG5mE8SZ4vH0j8Xv5C0+2q2N4m9G3k0w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app">
-    <!-- Sidebar - Hover Expand -->
-    <aside class="sidebar sidebar--hover" aria-label="Sidebar navigation">
-      <div class="sidebar__brand">
-        <div class="sidebar__logo-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
-            <defs>
-              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#6366f1"/>
-                <stop offset="100%" style="stop-color:#8b5cf6"/>
-              </linearGradient>
-            </defs>
-            <path fill="url(#logoGrad)" d="M12 3L1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82Z"/>
-          </svg>
-        </div>
-        <span class="sidebar__logo">Student AI</span>
-      </div>
-      <nav class="sidebar__nav" aria-label="Primary">
-        <button class="nav-item is-active" data-nav="dashboard" aria-label="Dashboard">
-          <div class="nav-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13 3v6h8V3m-8 18h8V11h-8M3 21h8v-6H3m0-2h8V3H3v10z"/></svg>
-          </div>
-          <span class="nav-text">Dashboard</span>
-          <span class="nav-indicator"></span>
-        </button>
-        <button class="nav-item" data-nav="saved" aria-label="Saved Cards">
-          <div class="nav-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          </div>
-          <span class="nav-text">Favorites</span>
-          <span class="nav-badge">3</span>
-        </button>
-        <button class="nav-item" data-nav="history" aria-label="History">
-          <div class="nav-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-          </div>
-          <span class="nav-text">History</span>
-        </button>
-        <button class="nav-item" data-nav="flashcards" aria-label="Flashcards">
-          <div class="nav-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12zM10 9h8v2h-8zm0 3h4v2h-4zm0-6h8v2h-8z"/></svg>
-          </div>
-          <span class="nav-text">Flashcards</span>
-        </button>
-        <button class="nav-item" data-nav="analytics" aria-label="Analytics">
-          <div class="nav-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
-          </div>
-          <span class="nav-text">Analytics</span>
-        </button>
-        <div class="nav-divider"></div>
-        <button class="nav-item" data-nav="settings" aria-label="Settings">
-          <div class="nav-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
-          </div>
-          <span class="nav-text">Settings</span>
-        </button>
-        <button class="nav-item" data-nav="help" aria-label="Help">
-          <div class="nav-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
-          </div>
-          <span class="nav-text">Help</span>
-        </button>
-      </nav>
-      <div class="sidebar__user">
-        <div class="user-avatar">S</div>
-        <div class="user-info">
-          <span class="user-name">Student</span>
-          <span class="user-plan">Pro Plan</span>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Main area -->
-    <div class="workspace">
-      <!-- Topbar -->
-      <header class="topbar" aria-label="Top bar">
-        <button id="mobileMenuBtn" class="topbar__menu" aria-label="Toggle sidebar">
-          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
-        </button>
-        <div class="topbar__search">
-          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l5.41 5.41-1.41 1.41-5.41-5.41A6.45 6.45 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2A4.5 4.5 0 0 0 5 9.5 4.5 4.5 0 0 0 9.5 14 4.5 4.5 0 0 0 14 9.5 4.5 4.5 0 0 0 9.5 5Z"/></svg>
-          <input id="searchInput" type="search" placeholder="Search history..." aria-label="Search history" />
-        </div>
-        <div class="topbar__controls">
-          <label class="sr-only" for="subjectTop">Subject</label>
-          <select id="subjectTop" aria-label="Select subject">
-            <option value="General" selected>General</option>
-            <option>Math</option>
-            <option>Physics</option>
-            <option>Chemistry</option>
-            <option>Biology</option>
-            <option>History</option>
-            <option>Computer Science</option>
-          </select>
-          <div class="avatar" aria-hidden="true">S</div>
-        </div>
-      </header>
-
-      <!-- Content grid -->
-      <main class="content" aria-label="Main content" aria-live="polite">
-        <section class="primary">
-          <!-- Question Card -->
-          <article class="card" aria-label="Question input">
-            <h1 class="h-title">Ask Your Question</h1>
-            <p class="muted">Paste your exam question and get an instant study card.</p>
-            <form id="askForm" class="form" novalidate>
-              <label class="sr-only" for="questionInput">Question</label>
-              <textarea id="questionInput" class="input input--area" rows="6" placeholder="Paste your exam question..." aria-required="true"></textarea>
-              
-              <!-- Subject Carousel -->
-              <div class="subject-carousel" role="listbox" aria-label="Select subject">
-                <button type="button" class="subject-btn is-active" data-subject="General" aria-selected="true">
-                  <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 3L1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82Z"/></svg>
-                  <span>General</span>
-                </button>
-                <button type="button" class="subject-btn" data-subject="Math" aria-selected="false">
-                  <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14h-2v-4H8v-2h4V7h2v4h4v2h-4v4z"/></svg>
-                  <span>Math</span>
-                </button>
-                <button type="button" class="subject-btn" data-subject="Physics" aria-selected="false">
-                  <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                  <span>Physics</span>
-                </button>
-                <button type="button" class="subject-btn" data-subject="Chemistry" aria-selected="false">
-                  <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M7 2v2h1v14a4 4 0 0 0 4 4 4 4 0 0 0 4-4V4h1V2H7m4 14c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1m2-4c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1m1-5h-4V4h4v3z"/></svg>
-                  <span>Chemistry</span>
-                </button>
-                <button type="button" class="subject-btn" data-subject="Biology" aria-selected="false">
-                  <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M17 8c.7 0 1.38.1 2 .29V5l-3-3H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h6.26A7 7 0 0 1 17 8m0 2a5 5 0 0 0-5 5 5 5 0 0 0 5 5 5 5 0 0 0 5-5 5 5 0 0 0-5-5m-1 8v-3h-2v-2h2v-3l3 4-3 4z"/></svg>
-                  <span>Biology</span>
-                </button>
-                <button type="button" class="subject-btn" data-subject="History" aria-selected="false">
-                  <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
-                  <span>History</span>
-                </button>
-                <button type="button" class="subject-btn" data-subject="Computer Science" aria-selected="false">
-                  <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
-                  <span>CS</span>
-                </button>
-                <button type="button" class="subject-btn" data-subject="Literature" aria-selected="false">
-                  <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M18 22a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12M6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
-                  <span>Literature</span>
-                </button>
-              </div>
-              <input type="hidden" id="subjectSelect" value="General" />
-
-              <div class="form__row">
-                <label class="checkbox">
-                  <input id="includeDiagram" type="checkbox" />
-                  <span>Include diagram</span>
-                </label>
-                <button id="submitBtn" type="submit" class="btn btn-primary btn-glow" aria-label="Get Study Card">
-                  <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-                  <span>Get Study Card</span>
-                </button>
-              </div>
-            </form>
-            <div id="loader" class="loader-container" role="status" aria-live="polite" hidden>
-              <div class="loader-card">
-                <div class="loader-animation">
-                  <div class="loader-orbit">
-                    <div class="loader-planet"></div>
-                  </div>
-                  <div class="loader-orbit loader-orbit--2">
-                    <div class="loader-planet loader-planet--2"></div>
-                  </div>
-                  <div class="loader-core">
-                    <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 3L1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82Z"/></svg>
-                  </div>
-                </div>
-                <div class="loader-content">
-                  <h3 class="loader-title">Generating Your Study Card</h3>
-                  <p class="loader-subtitle">AI is analyzing your question...</p>
-                  <div class="loader-progress">
-                    <div class="loader-progress-bar"></div>
-                  </div>
-                  <div class="loader-steps">
-                    <div class="loader-step is-active"><span class="loader-step-icon">✓</span> Understanding question</div>
-                    <div class="loader-step"><span class="loader-step-icon">◯</span> Finding explanations</div>
-                    <div class="loader-step"><span class="loader-step-icon">◯</span> Creating flashcards</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div id="errorBox" class="alert alert--error" role="alert" hidden></div>
-          </article>
-
-          <!-- Study Card (hidden until data) -->
-          <article id="studyCard" class="card study-card hidden" aria-label="Study card">
-            <header class="study-card__header">
-              <h2 class="h-subtitle">Study Card</h2>
-              <div class="actions">
-                <button id="saveBtn" class="btn btn-ghost" aria-label="Save"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2z"/></svg><span>Save</span></button>
-                <button id="exportBtn" class="btn btn-ghost" aria-label="Export PDF"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7 7-7z"/></svg><span>Export PDF</span></button>
-                <button id="revisionBtn" class="btn btn-ghost" aria-label="Add to Revision"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M17 13H7v-2h10v2m2 8H5a2 2 0 0 1-2-2V6c0-1.11.9-2 2-2h6l2 2h6a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2z"/></svg><span>Add to Revision</span></button>
-              </div>
-            </header>
-
-            <section class="study-card__quick card--surface" aria-label="Quick answer">
-              <h3 class="section-title">Quick Answer</h3>
-              <p id="quickAnswer" class="prose"></p>
-            </section>
-
-            <section class="study-card__steps" aria-label="Step-by-step">
-              <details open>
-                <summary class="section-title">Steps</summary>
-                <ol id="stepsList" class="list"></ol>
-              </details>
-            </section>
-
-            <section class="study-card__citations" aria-label="Citations">
-              <h3 class="section-title">Citations</h3>
-              <ul id="citationsList" class="list list--bulleted"></ul>
-            </section>
-
-            <section class="study-card__images" aria-label="Images">
-              <h3 class="section-title">Images</h3>
-              <div id="imagesGrid" class="thumbs" role="list"></div>
-            </section>
-
-            <section class="study-card__flashcards" aria-label="Flashcards">
-              <h3 class="section-title">Flashcards</h3>
-              <div id="flashcards" class="flashcards"></div>
-            </section>
-
-            <section class="study-card__followups" aria-label="Follow-up questions">
-              <h3 class="section-title">Follow-up Questions</h3>
-              <div id="followUps" class="chips"></div>
-            </section>
-          </article>
-        </section>
-
-        <!-- Secondary column -->
-        <aside class="secondary" aria-label="Sidebar info">
-          <article class="card stats" aria-label="Quick stats">
-            <h3 class="section-title">Quick Stats</h3>
-            <div class="stats__row"><span class="muted">Questions answered</span><span id="statsCount" class="badge">0</span></div>
-          </article>
-
-          <article class="card recent" aria-label="Recent history">
-            <h3 class="section-title">Recent History</h3>
-            <ul id="historyList" class="history" role="list"></ul>
-          </article>
-
-          <article class="card shortcuts" aria-label="Shortcuts">
-            <h3 class="section-title">Shortcuts</h3>
-            <div class="shortcut-grid">
-              <button id="genDiagramBtn" class="btn btn-light" type="button">Generate diagram</button>
-              <button id="exportAllBtn" class="btn btn-light" type="button">Export all</button>
-            </div>
-          </article>
-        </aside>
-      </main>
-
-      <footer class="footer" aria-label="Footer">
-        <p class="muted">Built for learners • v1.0</p>
-      </footer>
-    </div>
+  <!-- Animated Background -->
+  <div class="bg-animation">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+    <div class="grid-overlay"></div>
   </div>
+
+  <!-- Floating Particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-brand">
+      <div class="logo-icon">
+        <svg viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="14" stroke="url(#logoGrad)" stroke-width="2"/>
+          <path d="M16 8v8l6 4" stroke="url(#logoGrad)" stroke-width="2" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="logoGrad" x1="0" y1="0" x2="32" y2="32">
+              <stop offset="0%" stop-color="#6366f1"/>
+              <stop offset="100%" stop-color="#a855f7"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="brand-text">StudyAI</span>
+    </div>
+    <div class="nav-links">
+      <a href="#" class="nav-link active">Solver</a>
+      <a href="#" class="nav-link">History</a>
+      <a href="#" class="nav-link">Learn</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-ghost" id="themeToggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <main class="main">
+    <section class="hero">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>AI-Powered Learning</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="title-line">Solve Any</span>
+        <span class="title-line gradient-text">Academic Doubt</span>
+        <span class="title-line">Instantly</span>
+      </h1>
+      <p class="hero-subtitle">
+        Get step-by-step explanations, visual aids, and flashcards for any subject.
+        Powered by advanced AI.
+      </p>
+    </section>
+
+    <!-- Subject Carousel -->
+    <section class="subjects-section">
+      <div class="subjects-carousel" id="subjectsCarousel">
+        <button class="subject-chip active" data-subject="Mathematics">
+          <span class="chip-icon">∑</span>
+          <span>Mathematics</span>
+        </button>
+        <button class="subject-chip" data-subject="Physics">
+          <span class="chip-icon">⚛</span>
+          <span>Physics</span>
+        </button>
+        <button class="subject-chip" data-subject="Chemistry">
+          <span class="chip-icon">🧪</span>
+          <span>Chemistry</span>
+        </button>
+        <button class="subject-chip" data-subject="Biology">
+          <span class="chip-icon">🧬</span>
+          <span>Biology</span>
+        </button>
+        <button class="subject-chip" data-subject="Computer Science">
+          <span class="chip-icon">&lt;/&gt;</span>
+          <span>Computer Science</span>
+        </button>
+        <button class="subject-chip" data-subject="History">
+          <span class="chip-icon">📜</span>
+          <span>History</span>
+        </button>
+        <button class="subject-chip" data-subject="Literature">
+          <span class="chip-icon">📖</span>
+          <span>Literature</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Question Input -->
+    <section class="input-section">
+      <div class="input-card">
+        <div class="input-glow"></div>
+        <textarea 
+          id="questionInput" 
+          class="question-input" 
+          placeholder="Ask any question... e.g., 'Explain the quadratic formula' or 'What is photosynthesis?'"
+          rows="3"
+        ></textarea>
+        <div class="input-actions">
+          <div class="char-count">
+            <span id="charCount">0</span>/1000
+          </div>
+          <button class="btn-primary" id="submitBtn">
+            <span class="btn-text">Generate Answer</span>
+            <span class="btn-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </span>
+            <div class="btn-loader">
+              <div class="loader-ring"></div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section" id="resultsSection">
+      <!-- Loading State -->
+      <div class="loading-state" id="loadingState">
+        <div class="loading-animation">
+          <div class="loading-circle"></div>
+          <div class="loading-circle"></div>
+          <div class="loading-circle"></div>
+        </div>
+        <p class="loading-text">Analyzing your question...</p>
+        <div class="loading-steps">
+          <div class="step active">
+            <span class="step-dot"></span>
+            <span>Understanding context</span>
+          </div>
+          <div class="step">
+            <span class="step-dot"></span>
+            <span>Generating explanation</span>
+          </div>
+          <div class="step">
+            <span class="step-dot"></span>
+            <span>Creating visuals</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Answer Card -->
+      <div class="answer-card" id="answerCard">
+        <div class="card-header">
+          <div class="card-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+            <span>AI Response</span>
+          </div>
+          <div class="card-actions">
+            <button class="icon-btn" id="copyBtn" title="Copy">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2"/>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+            </button>
+            <button class="icon-btn" id="exportBtn" title="Export PDF">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <div class="card-content" id="answerContent">
+          <!-- Dynamic content will be inserted here -->
+        </div>
+      </div>
+
+      <!-- Flashcards -->
+      <div class="flashcards-section" id="flashcardsSection">
+        <h3 class="section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M12 8v8"/>
+            <path d="M8 12h8"/>
+          </svg>
+          Study Flashcards
+        </h3>
+        <div class="flashcards-grid" id="flashcardsGrid">
+          <!-- Dynamic flashcards -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toastContainer"></div>
 
   <!-- Image Modal -->
-  <div id="imageModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="imgModalTitle">
-    <div class="modal__overlay" data-close-modal tabindex="-1"></div>
-    <div class="modal__content" role="document">
-      <header class="modal__header">
-        <h2 id="imgModalTitle" class="section-title">Image</h2>
-        <button class="btn btn-icon" id="modalCloseBtn" aria-label="Close image modal">
-          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-        </button>
-      </header>
-      <div class="modal__body">
-        <img id="modalImage" alt="Expanded result image" />
-      </div>
-      <footer class="modal__footer">
-        <a id="modalDownload" class="btn btn-primary" href="#" download aria-label="Download image">Download</a>
-      </footer>
+  <div class="modal-overlay" id="imageModal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      <img id="modalImage" src="" alt="Enlarged view" />
     </div>
   </div>
 
-  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
-
-  <script src="./script.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
