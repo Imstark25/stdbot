@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learn - Student AI Doubt Solver</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg-animation">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- Floating Particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-brand">
+      <a href="index.html" class="brand-link">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="14" stroke="url(#logoGrad)" stroke-width="2"/>
+            <path d="M16 8v8l6 4" stroke="url(#logoGrad)" stroke-width="2" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="0" y1="0" x2="32" y2="32">
+                <stop offset="0%" stop-color="#6366f1"/>
+                <stop offset="100%" stop-color="#a855f7"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="brand-text">StudyAI</span>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Solver</a>
+      <a href="history.html" class="nav-link">History</a>
+      <a href="learn.html" class="nav-link active">Learn</a>
+    </div>
+    <div class="nav-actions">
+      <div class="theme-selector">
+        <button class="btn-ghost theme-toggle-btn" id="themeToggle" title="Change Theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </button>
+        <div class="theme-dropdown" id="themeDropdown">
+          <div class="theme-dropdown-header">Choose Theme</div>
+          <button class="theme-option active" data-theme="dark">
+            <span class="theme-preview dark-preview"></span>
+            <span>Midnight</span>
+          </button>
+          <button class="theme-option" data-theme="purple">
+            <span class="theme-preview purple-preview"></span>
+            <span>Purple Haze</span>
+          </button>
+          <button class="theme-option" data-theme="ocean">
+            <span class="theme-preview ocean-preview"></span>
+            <span>Ocean Blue</span>
+          </button>
+          <button class="theme-option" data-theme="forest">
+            <span class="theme-preview forest-preview"></span>
+            <span>Forest Green</span>
+          </button>
+          <button class="theme-option" data-theme="sunset">
+            <span class="theme-preview sunset-preview"></span>
+            <span>Sunset</span>
+          </button>
+          <button class="theme-option" data-theme="light">
+            <span class="theme-preview light-preview"></span>
+            <span>Light Mode</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+    <section class="page-header">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>Expand Your Knowledge</span>
+      </div>
+      <h1 class="page-title">
+        <span class="title-line">Learning</span>
+        <span class="title-line gradient-text">Resources</span>
+      </h1>
+      <p class="page-subtitle">
+        Explore curated learning resources to enhance your understanding across various subjects.
+      </p>
+    </section>
+
+    <!-- Learning Categories -->
+    <section class="learn-section">
+      <div class="learn-grid">
+        <div class="learn-card">
+          <div class="learn-card-icon">∑</div>
+          <h3>Mathematics</h3>
+          <p>From algebra to calculus, master mathematical concepts with step-by-step explanations.</p>
+          <span class="coming-soon-badge">Coming Soon</span>
+        </div>
+
+        <div class="learn-card">
+          <div class="learn-card-icon">⚛</div>
+          <h3>Physics</h3>
+          <p>Understand the laws of nature, from mechanics to quantum physics.</p>
+          <span class="coming-soon-badge">Coming Soon</span>
+        </div>
+
+        <div class="learn-card">
+          <div class="learn-card-icon">🧪</div>
+          <h3>Chemistry</h3>
+          <p>Explore chemical reactions, periodic table, and molecular structures.</p>
+          <span class="coming-soon-badge">Coming Soon</span>
+        </div>
+
+        <div class="learn-card">
+          <div class="learn-card-icon">🧬</div>
+          <h3>Biology</h3>
+          <p>Discover the science of life, from cells to ecosystems.</p>
+          <span class="coming-soon-badge">Coming Soon</span>
+        </div>
+
+        <div class="learn-card">
+          <div class="learn-card-icon">&lt;/&gt;</div>
+          <h3>Computer Science</h3>
+          <p>Learn programming, algorithms, and computational thinking.</p>
+          <span class="coming-soon-badge">Coming Soon</span>
+        </div>
+
+        <div class="learn-card">
+          <div class="learn-card-icon">📜</div>
+          <h3>History</h3>
+          <p>Journey through time and understand historical events and their impact.</p>
+          <span class="coming-soon-badge">Coming Soon</span>
+        </div>
+      </div>
+
+      <div class="learn-cta">
+        <h3>Want to Learn Now?</h3>
+        <p>Ask any question and get instant, detailed explanations powered by AI.</p>
+        <a href="index.html" class="btn-primary">
+          <span>Start Learning</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="learn.js"></script>
+</body>
+</html>
