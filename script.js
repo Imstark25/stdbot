@@ -28,7 +28,68 @@ const elements = {
   modalImage: document.getElementById("modalImage"),
   modalClose: document.getElementById("modalClose"),
   themeToggle: document.getElementById("themeToggle"),
+  themeDropdown: document.getElementById("themeDropdown"),
 };
+
+// ===== Theme Configuration =====
+const THEME_KEY = "studyai_theme";
+const themes = [
+  { id: "dark", name: "Midnight" },
+  { id: "purple", name: "Purple Haze" },
+  { id: "ocean", name: "Ocean Blue" },
+  { id: "forest", name: "Forest Green" },
+  { id: "sunset", name: "Sunset" },
+  { id: "light", name: "Light Mode" },
+];
+
+// ===== Theme Management =====
+function initTheme() {
+  const savedTheme = localStorage.getItem(THEME_KEY) || "dark";
+  setTheme(savedTheme);
+}
+
+function setTheme(themeId) {
+  document.documentElement.setAttribute("data-theme", themeId);
+  localStorage.setItem(THEME_KEY, themeId);
+  
+  // Update active state in dropdown
+  const options = document.querySelectorAll(".theme-option");
+  options.forEach((option) => {
+    option.classList.toggle("active", option.dataset.theme === themeId);
+  });
+  
+  // Update toggle icon for light mode
+  const toggleBtn = elements.themeToggle;
+  if (toggleBtn) {
+    const isLight = themeId === "light";
+    toggleBtn.innerHTML = isLight
+      ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>`
+      : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>`;
+  }
+}
+
+function initThemeSelector() {
+  const options = document.querySelectorAll(".theme-option");
+  options.forEach((option) => {
+    option.addEventListener("click", () => {
+      setTheme(option.dataset.theme);
+      showToast(`Theme changed to ${option.textContent.trim()}`);
+    });
+  });
+  
+  // Close dropdown when clicking outside
+  document.addEventListener("click", (e) => {
+    const selector = document.querySelector(".theme-selector");
+    if (selector && !selector.contains(e.target)) {
+      elements.themeDropdown?.classList.remove("visible");
+    }
+  });
+}
 
 // ===== Initialize Particles =====
 function initParticles() {
@@ -368,6 +429,8 @@ function initEventListeners() {
 
 // ===== Initialize =====
 function init() {
+  initTheme();
+  initThemeSelector();
   initParticles();
   initSubjectCarousel();
   initEventListeners();

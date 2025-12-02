@@ -44,12 +44,41 @@
       <a href="#" class="nav-link">Learn</a>
     </div>
     <div class="nav-actions">
-      <button class="btn-ghost" id="themeToggle">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="5"/>
-          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-        </svg>
-      </button>
+      <div class="theme-selector">
+        <button class="btn-ghost theme-toggle-btn" id="themeToggle" title="Change Theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </button>
+        <div class="theme-dropdown" id="themeDropdown">
+          <div class="theme-dropdown-header">Choose Theme</div>
+          <button class="theme-option active" data-theme="dark">
+            <span class="theme-preview dark-preview"></span>
+            <span>Midnight</span>
+          </button>
+          <button class="theme-option" data-theme="purple">
+            <span class="theme-preview purple-preview"></span>
+            <span>Purple Haze</span>
+          </button>
+          <button class="theme-option" data-theme="ocean">
+            <span class="theme-preview ocean-preview"></span>
+            <span>Ocean Blue</span>
+          </button>
+          <button class="theme-option" data-theme="forest">
+            <span class="theme-preview forest-preview"></span>
+            <span>Forest Green</span>
+          </button>
+          <button class="theme-option" data-theme="sunset">
+            <span class="theme-preview sunset-preview"></span>
+            <span>Sunset</span>
+          </button>
+          <button class="theme-option" data-theme="light">
+            <span class="theme-preview light-preview"></span>
+            <span>Light Mode</span>
+          </button>
+        </div>
+      </div>
     </div>
   </nav>
 
